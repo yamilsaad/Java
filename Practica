@@ -1,0 +1,113 @@
+//Aplicacion
+
+package api4;
+
+public class Aplicacion {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Producto producto1 = new Producto ("Leche",50,10,90,false);
+		Producto producto2 = new Producto ("Yerba",150,100,300,true);
+		Producto producto3 = new Producto ("Fideo",30,1500,60,false);
+		Inventario inventario = new Inventario();
+		inventario.agregarproducto(producto1);
+		inventario.agregarproducto(producto2);
+		inventario.agregarproducto(producto3);
+		inventario.mostrarproducto();
+	}
+
+}
+
+//Producto
+
+package api4;
+
+public class Producto {
+	//atributos y propiedades...
+	private String nombre;
+	private int precio;
+	private int stock;
+	private int precioventa;
+	private boolean promocional;
+	
+	//constructor
+	
+	public Producto (String nombres, int precios, int stocks, int precioventas, boolean promocionals) {
+		this.nombre = nombres;
+		this.precio = precios;
+		this.stock = stocks;
+		this.precioventa = this.calcular_precioventa(precios, stocks, promocionals);
+		this.promocional = promocionals;
+		
+	}
+	//FUNCION calcular_precioventa
+	private int calcular_precioventa (int precios, int stocks, boolean promocionals) {
+		
+		double resultado;
+		
+		if(!promocionals) {
+			if((stocks >= 100 && precios > 1500) || stocks < 50) {
+				resultado = (precios*1.15)*1.21;
+				} else {
+					resultado = (precios*1.2)*1.21;
+				}
+			} else {
+				resultado = precios*1.21;
+				}
+			return (int) resultado;
+			
+	 }
+	
+	public String getNombre() {
+		return this.nombre;
+	}
+	public int getPrecio() {
+		return this.precio;
+	}
+	public int getStock() {
+		return this.stock;
+	}
+	public int getVenta() {
+		return this.precioventa;
+	}
+
+
+
+}
+
+//Inventario
+
+package api4;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Inventario {
+	
+	private List<Producto>listadeproducto;
+	
+	//Constructor
+	public Inventario () {
+		
+		this.listadeproducto = new ArrayList();
+	}
+	public void agregarproducto(Producto producto) {
+		this.listadeproducto.add(producto);
+	}
+	public void mostrarproducto() {
+		int totalcompra = 0;
+		int totalventa = 0;
+		
+		for (Producto p:this.listadeproducto) {
+			totalcompra = totalcompra + p.getPrecio();
+			totalventa = totalventa + p.getVenta();
+			
+		System.out.println("El Nombre del producto es: " + p.getNombre());
+		System.out.println("El Precio del producto es: " + p.getVenta());
+		}
+		System.out.println("Total de precios de Compra es: " + totalcompra);
+		System.out.println("Total de precios de Ventas es: " + totalventa);
+		
+	}
+
+}
